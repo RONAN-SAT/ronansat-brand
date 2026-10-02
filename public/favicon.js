@@ -2,23 +2,27 @@
 (() => {
   if (window.ronanSatFavicon) return;
   const theme = window.matchMedia("(prefers-color-scheme: dark)");
-  let icon;
+  let fallbackIcon;
   let pending = false;
   const render = () => {
     pending = false;
     const icons = [...document.querySelectorAll('link[rel~="icon"]')];
-    if (!icon?.isConnected) {
-      icon = document.createElement("link");
-      icon.rel = "icon";
-      icon.type = "image/svg+xml";
-      icon.dataset.ronansatFavicon = "shared";
+    // React owns the links rendered by app metadata. Removing one outside
+    // React leaves its resource fiber pointing at a detached node and crashes
+    // hydration/navigation when React later tries to remove it. Theme every
+    // existing icon in place; only create our own when the head has none.
+    if (icons.length === 0) {
+      fallbackIcon ??= document.createElement("link");
+      fallbackIcon.rel = "icon";
+      fallbackIcon.dataset.ronansatFavicon = "shared";
+      icons.push(fallbackIcon);
     }
-    // Routers may reinsert file-convention icons on navigation. One controller
-    // owns the favicon so a page cannot accidentally undo the shared behavior.
-    for (const other of icons) if (other !== icon) other.remove();
     const next = `${location.origin}/brand/favicon.svg?theme=${theme.matches ? "dark" : "light"}`;
-    if (icon.href !== next) icon.href = next;
-    if (!icon.isConnected) document.head.append(icon);
+    for (const icon of icons) {
+      icon.type = "image/svg+xml";
+      if (icon.href !== next) icon.href = next;
+      if (!icon.isConnected) document.head.append(icon);
+    }
   };
   const observer = new MutationObserver(() => {
     if (!pending) {
