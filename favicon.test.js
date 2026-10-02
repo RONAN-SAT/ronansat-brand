@@ -43,22 +43,27 @@ test("shared controller preserves framework icon nodes through theme and route c
     },
   };
   const window = { matchMedia: () => theme };
-  runInNewContext(readFileSync(new URL("./public/favicon.js", import.meta.url), "utf8"), {
-    window,
-    document,
-    location: { origin: "https://pay.ronansat.com" },
-    MutationObserver: class {
-      constructor(fn) {
-        observe = fn;
-      }
-      observe() {}
+  runInNewContext(
+    readFileSync(new URL("./public/favicon.js", import.meta.url), "utf8"),
+    {
+      window,
+      document,
+      location: { origin: "https://pay.ronansat.com" },
+      MutationObserver: class {
+        constructor(fn) {
+          observe = fn;
+        }
+        observe() {}
+      },
+      queueMicrotask: (fn) => queued.push(fn),
     },
-    queueMicrotask: (fn) => queued.push(fn),
-  });
+  );
   expect(links).toHaveLength(1);
   expect(links[0]).toBe(initialIcon);
   expect(links[0].type).toBe("image/svg+xml");
-  expect(links[0].href).toBe("https://pay.ronansat.com/brand/favicon.svg?theme=light");
+  expect(links[0].href).toBe(
+    "https://pay.ronansat.com/brand/favicon.svg?theme=light",
+  );
   theme.matches = true;
   themeChange();
   expect(links[0].href).toEndWith("theme=dark");
@@ -110,14 +115,14 @@ test("public assets reject writes and select dark SVG without auth cookies", asy
   };
   const dark = await worker.fetch(
     new Request("https://pay.ronansat.com/brand/favicon.svg?theme=dark"),
-    env
+    env,
   );
   expect(await dark.text()).toContain("#E7E7E7");
   expect(dark.headers.get("set-cookie")).toBeNull();
   expect(dark.headers.get("x-ronansat-brand")).toBe("shared");
   const write = await worker.fetch(
     new Request("https://admin.ronansat.com/favicon.ico", { method: "POST" }),
-    env
+    env,
   );
   expect(write.status).toBe(405);
 });
