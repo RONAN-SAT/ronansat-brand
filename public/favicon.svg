@@ -1,0 +1,12 @@
+<svg width="138" height="138" viewBox="20.4295 25 126.141 126.141" fill="none" xmlns="http://www.w3.org/2000/svg"><style>.ink{fill:#181818}@media(prefers-color-scheme:dark){.ink{fill:#E7E7E7}}</style>
+<!-- Ronan SAT mark. Paths are verbatim from the designer file (root logo.svg);
+     the artwork's ink box is 117x126.141 at x=25..142, y=25..151.141. Instead of
+     rewriting coordinates, the viewBox is offset/sized to a SQUARE that tightly
+     wraps that ink (side 126.141, x shifted left by (126.141-117)/2 = 4.5705 to
+     centre it). Square is load-bearing: every logo slot in the app, the PDF
+     booklets and the icon/favicon rasters render this 1:1 with no distortion or
+     extra layout math. Keep the viewBox square when the art changes, and
+     re-measure the ink box if the paths or any stroke width change. -->
+<path d="M25 25H85.4805C95.6219 25 105.348 29.0287 112.519 36.1997C119.69 43.3708 123.719 53.0969 123.719 63.2383C123.719 73.3797 119.69 83.1058 112.519 90.2768C105.348 97.4479 95.6219 101.477 85.4805 101.477H48.4609L88.9844 151.141H25V25Z" class="ink" fill="#181818"/>
+<path d="M81.6719 116.102H113.055L142 151.141H110.617L81.6719 116.102Z" fill="#BCCE75"/>
+</svg>

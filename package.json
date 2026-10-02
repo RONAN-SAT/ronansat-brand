@@ -1,0 +1,21 @@
+{
+  "name": "@ronan-sat/brand",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.1",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "bun test favicon.test.js",
+    "typecheck": "tsc --noEmit",
+    "typegen": "wrangler types --env-interface BrandEnv worker-configuration.d.ts",
+    "lint": "prettier --check worker.ts favicon.test.js public/favicon.js scripts package.json tsconfig.json wrangler.jsonc",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.141.0",
+    "typescript": "6.0.3",
+    "@types/bun": "^1.4.0",
+    "prettier": "^3.9.6"
+  }
+}
